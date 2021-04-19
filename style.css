@@ -1,3 +1,13 @@
+/* extremely minimalist CSS resets */
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 1em;
   font-family: sans-serif;
