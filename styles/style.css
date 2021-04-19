@@ -1,4 +1,4 @@
-/* extremely minimalist CSS resets */
+/* a minimalist set of CSS resets */
 html {
   box-sizing: border-box;
   font-size: 16px;
@@ -9,6 +9,12 @@ html {
 }
 
 body {
-  margin: 1em;
+  margin: 1rem;
   font-family: sans-serif;
+}
+
+img,
+video {
+  height: auto;
+  max-width: 100%;
 }
