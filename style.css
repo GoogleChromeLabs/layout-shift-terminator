@@ -10,12 +10,14 @@ html {
   box-sizing: inherit;
 }
 
+/* adjust typography defaults */
 body {
   margin: 1rem;
   font-family: sans-serif;
   line-height: 1.5;
 }
 
+/* images and videos max out at full width */
 img,
 video {
   height: auto;
