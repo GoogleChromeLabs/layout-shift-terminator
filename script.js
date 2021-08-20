@@ -33,17 +33,70 @@ async function start() {
   const progress = document.querySelector('progress');
   progress.max = viewportSizes.length;
   let i = 1;
+  progress.value = 0
   for ( const viewportSize of viewportSizes ) {
     await calculateViewportSize( { maxWidth, markup, ...viewportSize } );
-    
-    
-    
     
     progress.value = i;
     i++;
   }
 }
 
+function watchForEmbedLoaded(container) {
+  const startTime = new Date();
+
+  return new Promise((resolve, reject) => {
+    const resolveWithResolution = () => {
+      resolve({
+        loadTime: new Date().valueOf() - startTime.valueOf()
+      });
+    };
+
+    // Allow up to 5 seconds to size the embed.
+    setTimeout(resolveWithResolution, 5000);
+
+    // If there is no JS script in the embed, resolve once window loaded.
+    // This allows us to obtain dimensions for an image/video that lacks
+    // width/height attributes.
+    const script = container.querySelector(
+      'script:not([type]), script[type="module"], script[type~="javascript"], *[onload]'
+    );
+    if (!script) {
+      const dimensionLessVideo = container.querySelector(
+        "video:not([width][height])"
+      );
+      if (dimensionLessVideo) {
+        if (dimensionLessVideo.videoWidth && dimensionLessVideo.videoHeight) {
+          resolveWithResolution();
+        } else {
+          dimensionLessVideo.addEventListener(
+            "loadedmetadata",
+            resolveWithResolution
+          );
+        }
+      } else {
+        windowLoaded.then(resolveWithResolution);
+      }
+      return;
+    }
+
+    // Start listening for DOM changes, and stop once a 2.5-second pause is encountered.
+    // Warning: the embed may be wise enough to implement lazy-loading.
+    let resolveTimeoutId = 0;
+    const observer = new MutationObserver(() => {
+      clearTimeout(resolveTimeoutId);
+      resolveTimeoutId = setTimeout(() => {
+        observer.disconnect();
+        resolveWithResolution();
+      }, 2500);
+    });
+    observer.observe(container, {
+      subtree: true,
+      childList: true,
+      attributes: true
+    });
+  });
+}
 
 async function calculateViewportSize( { maxWidth, width, height, markup } ) {
   const iframe = document.querySelector('iframe');
@@ -57,11 +110,34 @@ async function calculateViewportSize( { maxWidth, width, height, markup } ) {
   
   iframe.width = width;
   iframe.height = height;
+  
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width">
+      <style>
+        body > div { border: solid 1px black; }
+      </div>
+    </head>
+    <body>
+      <div>${markup}</div>
+      <script>
+      
+      </script>
+    </body>
+    </html>
+  `;
+  
+  console.info(watchForEmbedLoaded.toString())
+  
   iframe.contentWindow.document.open();
-  iframe.contentWindow.document.write(markup);
+  iframe.contentWindow.document.write(html);
   iframe.contentWindow.document.close();
   
+  
   return new Promise((resolve) => {
-    setTimeout( resolve, 100 )
+    setTimeout( resolve, 1000 )
   });
 }
