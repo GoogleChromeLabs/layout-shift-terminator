@@ -17,6 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
 async function start() {
   const calculationContainer = document.getElementById("calculation");
   calculationContainer.hidden = false;
+  
+  const currentViewportWidthSpan = document.getElementById('current-viewport-width');
+  const currentViewportHeightSpan = document.getElementById('current-viewport-height');
+  
   const markup = document.getElementById("markup").value;
 
   const maxWidth = calculationContainer.offsetWidth;
@@ -25,18 +29,34 @@ async function start() {
   progress.max = viewportSizes.length;
   let i = 1;
   progress.value = 0;
+  
+  const results = [];
+  
   for (const viewportSize of viewportSizes) {
+    currentViewportWidthSpan.textContent = viewportSize.width.toString();
+    currentViewportHeightSpan.textContent = viewportSize.height.toString();
+    
     const data = await calculateViewportSize({
       maxWidth,
       markup,
       ...viewportSize
     });
-    console.info(data);
+    
+    results.push({
+      ...data,
+      viewportSize
+    })
+    
     progress.value = i;
     i++;
   }
+  
+  console.info(results)
 }
 
+/**
+ * This function must be self-contained because it is exported as JS string into the iframe.
+ */
 function watchForEmbedLoaded(container) {
   const windowLoaded = new Promise(resolve => {
     window.addEventListener("load", resolve);
@@ -99,11 +119,6 @@ function watchForEmbedLoaded(container) {
   });
 }
 
-async function messageParentOnceLoaded(container) {
-  const data = await watchForEmbedLoaded(container);
-  parent.postMessage(data);
-}
-
 async function calculateViewportSize({ maxWidth, width, height, markup }) {
   const oldIframe = document.querySelector("iframe");
 
@@ -125,7 +140,8 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width">
       <style>
-        body > div { border: solid 1px black; }
+        /* Add border to prevent margin collapsing. */
+        /*body > div { border: solid 1px transparent; }*/
       </style>
     </head>
     <body>
@@ -133,8 +149,8 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
       <script>
       (async () => {
         ${watchForEmbedLoaded.toString()}
-        ${messageParentOnceLoaded.toString()}
-        messageParentOnceLoaded(document.querySelector('div'));
+        const data = await watchForEmbedLoaded(document.querySelector('div'));
+        parent.postMessage(data);
       })();
       </script>
     </body>

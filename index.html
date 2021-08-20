@@ -25,7 +25,8 @@
       
       <label for="markup">Layout-shifting markup:</label>
       <textarea id="markup" data-autofocus placeholder="Paste layout shifting HTML here.">
-        <div id="example-lazy-iframe" class="presized-embed">
+          <img src="https://amp-wp.org/wp-content/uploads/2021/02/kidshappy-600x400.jpg" style="display:block" loading="lazy">
+<!--         <div id="example-lazy-iframe" class="presized-embed">
   <iframe id="simulated-embed" width="100%" style="outline:solid 1px gray; border:0; display:block" height="1" loading="lazy" src="https://example.com/"></iframe>
   <script type="module">
     const iframe = document.getElementById('simulated-embed');
@@ -34,7 +35,7 @@
     setTimeout( () => { iframe.height = 200;}, 500 );
     setTimeout(setSize, 750);
     window.addEventListener('resize', setSize);
-  </script>
+  </script> -->
 </div>
       </textarea>
       <button type="submit" disabled>
@@ -47,6 +48,10 @@
         </h2>
         
         <progress></progress>
+        
+        <p>
+          Checking viewport: <span id="current-viewport-width"></span>&times;<span id="current-viewport-height"></span>
+        </p>
         <iframe src="about:blank"></iframe>
       </section>
 

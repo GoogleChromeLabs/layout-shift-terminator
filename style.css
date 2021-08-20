@@ -47,5 +47,6 @@ iframe {
   border: 0;
   display: block;
   transform-origin: 0 0;
+  pointer-events:none;
 }
 
