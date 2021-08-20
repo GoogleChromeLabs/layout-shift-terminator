@@ -39,11 +39,16 @@ progress {
 
 #calculation {
   margin-top: 2em;
-  
+  overflow: hidden;
 }
 
 iframe {
   margin-top: 5px;
   border: 0;
   outline: solid 1px gray;
+  display: block;
+  
+  transform: scale(0.1);
+  transform-origin: 0 0;
 }
+
