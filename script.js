@@ -1,58 +1,55 @@
 
-const viewportSizes = [
-  {"width": 1920, "height": 1080},
-  // {"width": 1536, "height": 864},
-  // {"width": 1366, "height": 768},
-  // {"width": 768, "height": 1024},
-  // {"width": 414, "height": 896},
-  // {"width": 375, "height": 667},
-  // {"width": 360, "height": 640}
-];
+import { default as viewportSizes } from './viewports.js';
 
-document.addEventListener( 'DOMContentLoaded', () => {
-  const form = document.querySelector('form');
-  
-  form.addEventListener('submit', (event) => {
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", event => {
     event.preventDefault();
     start();
-  })
-  
-  form.querySelector('button[type=submit]').disabled = false;
-  
-  start();
-} );
+  });
 
+  form.querySelector("button[type=submit]").disabled = false;
+
+  start();
+});
 
 async function start() {
-  const calculationContainer = document.getElementById('calculation');
+  const calculationContainer = document.getElementById("calculation");
   calculationContainer.hidden = false;
-  const markup = document.getElementById('markup').value;
-  
+  const markup = document.getElementById("markup").value;
+
   const maxWidth = calculationContainer.offsetWidth;
-  
-  const progress = document.querySelector('progress');
+
+  const progress = document.querySelector("progress");
   progress.max = viewportSizes.length;
   let i = 1;
-  progress.value = 0
-  for ( const viewportSize of viewportSizes ) {
-    await calculateViewportSize( { maxWidth, markup, ...viewportSize } );
-    
+  progress.value = 0;
+  for (const viewportSize of viewportSizes) {
+    const data = await calculateViewportSize({
+      maxWidth,
+      markup,
+      ...viewportSize
+    });
+    console.info(data);
     progress.value = i;
     i++;
   }
 }
 
 function watchForEmbedLoaded(container) {
-  const windowLoaded = new Promise((resolve) => {
-    window.addEventListener('load', resolve);
+  const windowLoaded = new Promise(resolve => {
+    window.addEventListener("load", resolve);
   });
-  
+
   const startTime = new Date();
 
   return new Promise((resolve, reject) => {
     const resolveWithResolution = () => {
       resolve({
-        loadTime: new Date().valueOf() - startTime.valueOf()
+        duration: new Date().valueOf() - startTime.valueOf(),
+        width: container.offsetWidth,
+        height: container.offsetHeight
       });
     };
 
@@ -102,25 +99,25 @@ function watchForEmbedLoaded(container) {
   });
 }
 
-async function messageParentOnceLoaded( container ) {
-  const data = await watchForEmbedLoaded( container );
-  parent.postMessage( data );
+async function messageParentOnceLoaded(container) {
+  const data = await watchForEmbedLoaded(container);
+  parent.postMessage(data);
 }
 
-async function calculateViewportSize( { maxWidth, width, height, markup } ) {
-  const oldIframe = document.querySelector('iframe');
-  
-  const iframe = document.createElement('iframe');
-  iframe.src = 'about:blank';
+async function calculateViewportSize({ maxWidth, width, height, markup }) {
+  const oldIframe = document.querySelector("iframe");
+
+  const iframe = document.createElement("iframe");
+  iframe.src = "about:blank";
   iframe.width = width;
   iframe.height = height;
-  if ( maxWidth >= width ) {
-    iframe.style.transform = '';
+  if (maxWidth >= width) {
+    iframe.style.transform = "";
   } else {
-    iframe.style.transform = `scale(${maxWidth/width})`;
+    iframe.style.transform = `scale(${maxWidth / width})`;
   }
   oldIframe.parentNode.replaceChild(iframe, oldIframe);
-  
+
   const html = `
     <!DOCTYPE html>
     <html>
@@ -143,17 +140,19 @@ async function calculateViewportSize( { maxWidth, width, height, markup } ) {
     </body>
     </html>
   `;
-  
-  window.addEventListener('message', () => {}, {once: true});
-  iframe.contentWindow.addEventListener('message', () => {
-    
-  })
-  iframe.contentWindow.document.open();
-  iframe.contentWindow.document.write(html);
-  iframe.contentWindow.document.close();
-  
-  
-  return new Promise((resolve) => {
-    setTimeout( resolve, 1000 )
+
+  return new Promise(resolve => {
+    window.addEventListener(
+      "message",
+      event => {
+        if (event.source === iframe.contentWindow) {
+          resolve(event.data);
+        }
+      },
+      { once: true }
+    );
+    iframe.contentWindow.document.open();
+    iframe.contentWindow.document.write(html);
+    iframe.contentWindow.document.close();
   });
 }
