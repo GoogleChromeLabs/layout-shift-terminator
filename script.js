@@ -11,12 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.querySelector("button[type=submit]").disabled = false;
 
-  start();
+  start(); // Testing.
 });
 
 async function start() {
   const calculationContainer = document.getElementById("calculation");
+  const terminationSection = document.getElementById('termination');
+
   calculationContainer.hidden = false;
+  terminationSection.hidden = true;
   
   const currentViewportWidthSpan = document.getElementById('current-viewport-width');
   const currentViewportHeightSpan = document.getElementById('current-viewport-height');
@@ -47,10 +50,24 @@ async function start() {
       viewportSize
     })
     
-    progress.value = i;
+    progress.value = i; // Maybe put this at the top of the loop.
     i++;
   }
   
+  
+  
+  terminationSection.hidden = false;
+  const markupViewportSizesOl = document.getElementById('markup-viewport-sizes');
+  while ( markupViewportSizesOl.firstChild ) {
+    markupViewportSizesOl.removeChild(markupViewportSizesOl.firstChild);
+  }
+  for ( const result of results ) {
+    const li = document.createElement('li');
+    li.textContent = JSON.stringify(result);
+    markupViewportSizesOl.appendChild(li);
+  }
+  
+  // @todo Now take the results and construct the markup that should be embedded.
   console.info(results)
 }
 
@@ -157,7 +174,7 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
     </html>
   `;
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     window.addEventListener(
       "message",
       event => {
@@ -170,5 +187,7 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
     iframe.contentWindow.document.open();
     iframe.contentWindow.document.write(html);
     iframe.contentWindow.document.close();
+    
+    setTimeout(reject, 10000);
   });
 }
