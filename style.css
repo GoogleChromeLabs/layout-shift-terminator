@@ -42,6 +42,10 @@ progress {
   max-width: 100%;
 }
 
+#iframe-wrapper {
+  border: solid 1px black;
+}
+
 iframe {
   margin-top: 5px;
   border: 0;

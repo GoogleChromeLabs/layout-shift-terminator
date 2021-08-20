@@ -1,5 +1,4 @@
-
-import { default as viewportSizes } from './viewports.js';
+import { default as viewportSizes } from "./viewports.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
@@ -16,14 +15,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function start() {
   const calculationContainer = document.getElementById("calculation");
-  const terminationSection = document.getElementById('termination');
+  const terminationSection = document.getElementById("termination");
 
   calculationContainer.hidden = false;
   terminationSection.hidden = true;
-  
-  const currentViewportWidthSpan = document.getElementById('current-viewport-width');
-  const currentViewportHeightSpan = document.getElementById('current-viewport-height');
-  
+
+  const currentViewportWidthSpan = document.getElementById(
+    "current-viewport-width"
+  );
+  const currentViewportHeightSpan = document.getElementById(
+    "current-viewport-height"
+  );
+
   const markup = document.getElementById("markup").value;
 
   const maxWidth = calculationContainer.offsetWidth;
@@ -32,43 +35,43 @@ async function start() {
   progress.max = viewportSizes.length;
   let i = 1;
   progress.value = 0;
-  
+
   const results = [];
-  
+
   for (const viewportSize of viewportSizes) {
     currentViewportWidthSpan.textContent = viewportSize.width.toString();
     currentViewportHeightSpan.textContent = viewportSize.height.toString();
-    
+
     const data = await calculateViewportSize({
       maxWidth,
       markup,
       ...viewportSize
     });
-    
+
     results.push({
       ...data,
       viewportSize
-    })
-    
+    });
+
     progress.value = i; // Maybe put this at the top of the loop.
     i++;
   }
-  
-  
-  
+
   terminationSection.hidden = false;
-  const markupViewportSizesOl = document.getElementById('markup-viewport-sizes');
-  while ( markupViewportSizesOl.firstChild ) {
+  const markupViewportSizesOl = document.getElementById(
+    "markup-viewport-sizes"
+  );
+  while (markupViewportSizesOl.firstChild) {
     markupViewportSizesOl.removeChild(markupViewportSizesOl.firstChild);
   }
-  for ( const result of results ) {
-    const li = document.createElement('li');
+  for (const result of results) {
+    const li = document.createElement("li");
     li.textContent = JSON.stringify(result);
     markupViewportSizesOl.appendChild(li);
   }
-  
+
   // @todo Now take the results and construct the markup that should be embedded.
-  console.info(results)
+  console.info(results);
 }
 
 /**
@@ -99,7 +102,7 @@ function watchForEmbedLoaded(container) {
     const script = container.querySelector(
       'script:not([type]), script[type="module"], script[type~="javascript"], *[onload]'
     );
-    if (!script) {
+    if (!script&&0) {
       const dimensionLessVideo = container.querySelector(
         "video:not([width][height])"
       );
@@ -138,6 +141,7 @@ function watchForEmbedLoaded(container) {
 
 async function calculateViewportSize({ maxWidth, width, height, markup }) {
   const oldIframe = document.querySelector("iframe");
+  const iframeWrapper = oldIframe.parentNode;
 
   const iframe = document.createElement("iframe");
   iframe.src = "about:blank";
@@ -145,10 +149,13 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
   iframe.height = height;
   if (maxWidth >= width) {
     iframe.style.transform = "";
+    iframeWrapper.style.height = "";
   } else {
     iframe.style.transform = `scale(${maxWidth / width})`;
+    iframeWrapper.style.height = `${height * (maxWidth / width)}px`;
   }
-  oldIframe.parentNode.replaceChild(iframe, oldIframe);
+  //
+  iframeWrapper.replaceChild(iframe, oldIframe);
 
   const html = `
     <!DOCTYPE html>
@@ -187,7 +194,7 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
     iframe.contentWindow.document.open();
     iframe.contentWindow.document.write(html);
     iframe.contentWindow.document.close();
-    
+
     setTimeout(reject, 10000);
   });
 }

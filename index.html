@@ -25,7 +25,7 @@
       
       <label for="markup">Layout-shifting markup:</label>
       <textarea id="markup" data-autofocus placeholder="Paste layout shifting HTML here.">
-          <img src="https://amp-wp.org/wp-content/uploads/2021/02/kidshappy-600x400.jpg" style="display:block" loading="lazy">
+          <img src="https://amp-wp.org/wp-content/uploads/2021/02/kidshappy-600x400.jpg" style="display:block;width:100%" loading="lazy">
 <!--         <div id="example-lazy-iframe" class="presized-embed">
   <iframe id="simulated-embed" width="100%" style="outline:solid 1px gray; border:0; display:block" height="1" loading="lazy" src="https://example.com/"></iframe>
   <script type="module">
@@ -52,7 +52,10 @@
         <p>
           Checking viewport: <span id="current-viewport-width"></span>&times;<span id="current-viewport-height"></span>
         </p>
-        <iframe src="about:blank"></iframe>
+        
+        <div id="iframe-wrapper">
+          <iframe src="about:blank"></iframe>
+        </div>
       </section>
 
       <section id="termination" hidden>
@@ -64,8 +67,12 @@
         </p>
         <ol id="markup-viewport-sizes"></ol>
         
-        <textarea readonly></textarea>
+        <label for="optimized">Markup optimized to terminate layout shifts:</label>
+        <textarea id="optimized" readonly></textarea>
       </section>
     </form>
+  
+    <hr>
+    <address><a href="https://weston.ruter.net/">@westonruter</a></address>
   </body>
 </html>
