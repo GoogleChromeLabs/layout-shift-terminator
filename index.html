@@ -24,19 +24,36 @@
     <form action="javascript:"> 
       
       <label for="markup">Layout-shifting markup:</label>
-      <textarea id="markup" autofocus placeholder="Paste layout shifting HTML here."></textarea>
+      <textarea id="markup" autofocus placeholder="Paste layout shifting HTML here.">
+        <div id="example-lazy-iframe" class="presized-embed">
+  <iframe id="simulated-embed" width="100%" style="outline:solid 1px gray; border:0; display:block" height="1" loading="lazy" src="https://example.com/"></iframe>
+  <script type="module">
+    const iframe = document.getElementById('simulated-embed');
+    const setSize = () => { iframe.height = iframe.offsetWidth >= 700 ? 400 : 231 }; 
+    setTimeout( () => { iframe.height = 100;}, 250 );
+    setTimeout( () => { iframe.height = 200;}, 500 );
+    setTimeout(setSize, 750);
+    window.addEventListener('resize', setSize);
+  </script>
+</div>
+      </textarea>
       <button type="submit" disabled>
         Eliminate Layout Shift
       </button>
       
       <fieldset id="calculation" hidden>
+        <legend>
+          <em>Calculating Layout Shift Termination</em>
+        </legend>
         
-        
+        <progress></progress>
+        <iframe>
+          
+        </iframe>
       </fieldset>
-      
+
       <fieldset id="results" hidden>
-        
-        
+        <textarea readonly></textarea>
       </fieldset>
     </form>
   </body>

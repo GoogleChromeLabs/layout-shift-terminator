@@ -24,9 +24,26 @@ video {
   max-width: 100%;
 }
 
-#markup {
+textarea {
   width: 100%;
   min-height: 400px;
   font-family: monospace;
   display: block;
+}
+
+progress {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#calculation {
+  margin-top: 2em;
+  
+}
+
+iframe {
+  margin-top: 5px;
+  border: 0;
+  outline: solid 1px gray;
 }
