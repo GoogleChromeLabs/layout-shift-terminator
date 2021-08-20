@@ -28,11 +28,14 @@ async function start() {
   calculationContainer.hidden = false;
   const markup = document.getElementById('markup').value;
   
+  const maxWidth = calculationContainer.offsetWidth;
+  
   const progress = document.querySelector('progress');
   progress.max = viewportSizes.length;
   let i = 1;
   for ( const viewportSize of viewportSizes ) {
-    await calculateViewportSize( { markup, ...viewportSize } );
+    await calculateViewportSize( { maxWidth, markup, ...viewportSize } );
+    
     
     
     
@@ -42,12 +45,23 @@ async function start() {
 }
 
 
-async function calculateViewportSize( { width, height, markup } ) {
+async function calculateViewportSize( { maxWidth, width, height, markup } ) {
   const iframe = document.querySelector('iframe');
   iframe.src = 'about:blank';
+  
+  if ( maxWidth >= width ) {
+    iframe.style.transform = '';
+  } else {
+    iframe.style.transform = `scale(${maxWidth/width})`;
+  }
+  
   iframe.width = width;
   iframe.height = height;
   iframe.contentWindow.document.open();
   iframe.contentWindow.document.write(markup);
   iframe.contentWindow.document.close();
+  
+  return new Promise((resolve) => {
+    setTimeout( resolve, 100 )
+  });
 }
