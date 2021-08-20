@@ -1,4 +1,9 @@
-/* If you're feeling fancy you can add interactivity 
-    to your site with Javascript */
 
-console.log("Hello, world!");
+document.addEventListener( 'DOMContentLoaded', () => {
+  const form = document.querySelector('form');
+  form.querySelector('button[type=submit]').disabled = false;
+  
+  
+} );
+
+

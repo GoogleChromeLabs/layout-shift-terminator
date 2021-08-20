@@ -23,3 +23,10 @@ video {
   height: auto;
   max-width: 100%;
 }
+
+#markup {
+  width: 100%;
+  min-height: 400px;
+  font-family: monospace;
+  display: block;
+}
