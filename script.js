@@ -43,6 +43,10 @@ async function start() {
 }
 
 function watchForEmbedLoaded(container) {
+  const windowLoaded = new Promise((resolve) => {
+    window.addEventListener('load', resolve);
+  });
+  
   const startTime = new Date();
 
   return new Promise((resolve, reject) => {
@@ -98,18 +102,24 @@ function watchForEmbedLoaded(container) {
   });
 }
 
+async function messageParentOnceLoaded( container ) {
+  const data = await watchForEmbedLoaded( container );
+  parent.postMessage( data );
+}
+
 async function calculateViewportSize( { maxWidth, width, height, markup } ) {
-  const iframe = document.querySelector('iframe');
-  iframe.src = 'about:blank';
+  const oldIframe = document.querySelector('iframe');
   
+  const iframe = document.createElement('iframe');
+  iframe.src = 'about:blank';
+  iframe.width = width;
+  iframe.height = height;
   if ( maxWidth >= width ) {
     iframe.style.transform = '';
   } else {
     iframe.style.transform = `scale(${maxWidth/width})`;
   }
-  
-  iframe.width = width;
-  iframe.height = height;
+  oldIframe.parentNode.replaceChild(iframe, oldIframe);
   
   const html = `
     <!DOCTYPE html>
@@ -119,19 +129,25 @@ async function calculateViewportSize( { maxWidth, width, height, markup } ) {
       <meta name="viewport" content="width=device-width">
       <style>
         body > div { border: solid 1px black; }
-      </div>
+      </style>
     </head>
     <body>
       <div>${markup}</div>
       <script>
-      
+      (async () => {
+        ${watchForEmbedLoaded.toString()}
+        ${messageParentOnceLoaded.toString()}
+        messageParentOnceLoaded(document.querySelector('div'));
+      })();
       </script>
     </body>
     </html>
   `;
   
-  console.info(watchForEmbedLoaded.toString())
-  
+  window.addEventListener('message', () => {}, {once: true});
+  iframe.contentWindow.addEventListener('message', () => {
+    
+  })
   iframe.contentWindow.document.open();
   iframe.contentWindow.document.write(html);
   iframe.contentWindow.document.close();
