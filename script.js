@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   form.querySelector("button[type=submit]").disabled = false;
 
   document.getElementById('reload-preview').addEventListener( 'click', () => {
-    
+    renderOptimizedPreview(document.getElementById("optimized-markup").value);
+    console.info('cod');
   } );
   
   start(); // Testing.
@@ -43,6 +44,7 @@ async function start() {
   const results = [];
 
   for (const viewportSize of viewportSizes) {
+    progress.value = i;
     currentViewportWidthSpan.textContent = viewportSize.width.toString();
     currentViewportHeightSpan.textContent = viewportSize.height.toString();
 
@@ -57,10 +59,10 @@ async function start() {
       viewportSize
     });
 
-    progress.value = i; // Maybe put this at the top of the loop.
     i++;
   }
 
+  calculationContainer.hidden = true;
   terminationSection.hidden = false;
   const markupViewportSizesOl = document.getElementById(
     "markup-viewport-sizes"
@@ -107,7 +109,7 @@ async function start() {
 }
 
 
-const renderOptimizedPreview = (previewMarkup) => {
+function renderOptimizedPreview(previewMarkup) {
   const iframe = document.getElementById("optimized-preview");
   iframe.contentWindow.document.open();
   iframe.contentWindow.document.write(`

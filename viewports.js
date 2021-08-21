@@ -5,5 +5,5 @@ export default [
   {"width": 768, "height": 1024},
   {"width": 414, "height": 896},
   {"width": 375, "height": 667},
-  {"width": 360, "height": 64} // 640
+  {"width": 360, "height": 640}
 ];
