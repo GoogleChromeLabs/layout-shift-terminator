@@ -21,6 +21,10 @@
       </p>
     </noscript>
     
+    <p>
+      The fo
+    </p>
+    
     <form action="javascript:"> 
       
       <label for="markup">Layout-shifting markup:</label>
@@ -66,9 +70,9 @@
 
       <section id="termination" hidden>
         <h2>
-          Layout Shift Termination
+          Terminated
         </h2>
-        <p>
+        <p hidden>
           Viewport sizes:
         </p>
         <ol id="markup-viewport-sizes" hidden></ol>
@@ -77,9 +81,10 @@
         <textarea id="optimized-markup" readonly></textarea>
         
         <p>
-          Preview the optimized markup: <button id="reload-preview" type="button">Reload</button>
-          <iframe id="optimized-preview" src="about:blank"></iframe>
+          Preview the optimized markup, try resizing the window and hitting this below reload button perhaps with network throttling enabled and check that the lorem ipsum text doesn't shift around.
         </p>
+        <button id="reload-preview" type="button">Reload</button>
+        <iframe id="optimized-preview" src="about:blank"></iframe>
       </section>
     </form>
   
