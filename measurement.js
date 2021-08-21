@@ -46,23 +46,30 @@ export function watchForEmbedLoaded(container) {
     // Start listening for DOM changes, and stop once a 2.5-second pause is encountered.
     // Warning: the embed may be wise enough to implement lazy-loading.
     
-    const resizeObserver = new ResizeObserver(
-      ( entries ) => {
-        for ( const entry of entries ) {
-          console.info(  entry.contentBoxSize, entry.contentRect.height )
-          if ( entry.contentRect.height > 0 ) {
-            //console.info(  entry.contentBoxSize, entry.contentRect )
+//     const resizeObserver = new ResizeObserver(
+//       ( entries ) => {
+        
+//         for ( const entry of entries ) {
+//           console.info(entry)
+//           const iframe = container.querySelector('iframe');
+//           if (iframe) {
+//             console.info('offsetHeight', iframe.offsetHeight)
+//           }
+          
+//           console.info(  entry.contentBoxSize, entry.contentRect.height )
+//           if ( entry.contentRect.height > 0 ) {
+//             //console.info(  entry.contentBoxSize, entry.contentRect )
             
-            // resolveWithResolution();
-            break;
-          }
+//             // resolveWithResolution();
+//             break;
+//           }
           
           
-        }
-      }
-    );
-    resizeObserver.observe( container );
-    return;
+//         }
+//       }
+//     );
+//     resizeObserver.observe( container );
+//     return;
     
     let resolveTimeoutId = 0;
     const mutationObserver = new MutationObserver(() => {
@@ -78,7 +85,7 @@ export function watchForEmbedLoaded(container) {
         // setTimeout( () => {
         console.info('offsetHeight', iframe.offsetHeight)
           if ( iframe.offsetHeight > 10 ) {
-            complete();
+            // complete();
           }
         // }, 0 );
       }
