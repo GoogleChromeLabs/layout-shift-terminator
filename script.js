@@ -71,7 +71,7 @@ async function start() {
   }
 
   const optimizedMarkupTextarea = document.getElementById("optimized-markup");
-  const id = `layout-shift-termination-${Math.random()}`;
+  const id = `layout-shift-termination-${Math.random()}`.replace('.', '-');
 
   let styleTag = "<style class='layout-shift-termination'>";
   for (const result of results) {
@@ -90,10 +90,29 @@ async function start() {
   let scriptTag = `<script class='layout-shift-termination' async>`;
   scriptTag += `(${terminateLayoutShift.toString()})(document.getElementById(${JSON.stringify(
     id
-  )})`;
+  )}))`;
   scriptTag += `</script>`;
 
-  optimizedMarkupTextarea.value = `<div id="${id}">\n${styleTag}\n${scriptTag}\n${markup}\n</div>`;
+  const optimizedMarkup = `<div id="${id}">\n${styleTag}\n${scriptTag}\n${markup}\n</div>`;
+  optimizedMarkupTextarea.value = optimizedMarkup;
+  
+  const optimizedPreview = document.getElementById('optimized-preview');
+  //optimizedPreview.height = Math.max.apply( results.map( ( result ) => result.height ) );
+  optimizedPreview.contentWindow.document.open();
+  optimizedPreview.contentWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+      ${optimizedMarkup}
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ullamcorper consequat magna et feugiat. Integer placerat, dui nec semper posuere, urna nisl convallis mi, sed scelerisque ex mauris eget eros. Ut sit amet commodo leo. Vivamus ac efficitur ipsum. Integer vitae urna scelerisque, porta augue nec, blandit ligula. Aliquam massa sapien, mattis sit amet egestas ac, euismod ac urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum risus neque, lobortis nec arcu eu, molestie congue nulla. Aliquam maximus diam id turpis eleifend, sed sagittis dui bibendum. In facilisis ullamcorper ornare.</p>
+    </body>
+    </html>
+  `);
+  optimizedPreview.contentWindow.document.close();
 }
 
 /**
@@ -176,7 +195,6 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
     iframe.style.transform = `scale(${maxWidth / width})`;
     iframeWrapper.style.height = `${height * (maxWidth / width)}px`;
   }
-  //
   iframeWrapper.replaceChild(iframe, oldIframe);
 
   const html = `
