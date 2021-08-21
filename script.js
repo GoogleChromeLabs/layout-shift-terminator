@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.querySelector("button[type=submit]").disabled = false;
 
+  document.getElementById('reload-preview').addEventListener( 'click', () => {
+    
+  } );
+  
   start(); // Testing.
 });
 
@@ -71,7 +75,7 @@ async function start() {
   }
 
   const optimizedMarkupTextarea = document.getElementById("optimized-markup");
-  const id = `layout-shift-termination-${Math.random()}`.replace('.', '-');
+  const id = `layout-shift-termination-${Math.random()}`.replace(".", "-");
 
   let styleTag = "<style class='layout-shift-termination'>";
   for (const result of results) {
@@ -95,11 +99,18 @@ async function start() {
 
   const optimizedMarkup = `<div id="${id}">\n${styleTag}\n${scriptTag}\n${markup}\n</div>`;
   optimizedMarkupTextarea.value = optimizedMarkup;
+
+  const optimizedPreview = document.getElementById("optimized-preview");
+  optimizedPreview.height = Math.max(...results.map(result => result.height)) + 100;
   
-  const optimizedPreview = document.getElementById('optimized-preview');
-  //optimizedPreview.height = Math.max.apply( results.map( ( result ) => result.height ) );
-  optimizedPreview.contentWindow.document.open();
-  optimizedPreview.contentWindow.document.write(`
+  renderOptimizedPreview(optimizedMarkup);
+}
+
+
+const renderOptimizedPreview = (previewMarkup) => {
+  const iframe = document.getElementById("optimized-preview");
+  iframe.contentWindow.document.open();
+  iframe.contentWindow.document.write(`
     <!DOCTYPE html>
     <html>
     <head>
@@ -107,12 +118,12 @@ async function start() {
       <meta name="viewport" content="width=device-width">
     </head>
     <body>
-      ${optimizedMarkup}
+      ${previewMarkup}
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ullamcorper consequat magna et feugiat. Integer placerat, dui nec semper posuere, urna nisl convallis mi, sed scelerisque ex mauris eget eros. Ut sit amet commodo leo. Vivamus ac efficitur ipsum. Integer vitae urna scelerisque, porta augue nec, blandit ligula. Aliquam massa sapien, mattis sit amet egestas ac, euismod ac urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum risus neque, lobortis nec arcu eu, molestie congue nulla. Aliquam maximus diam id turpis eleifend, sed sagittis dui bibendum. In facilisis ullamcorper ornare.</p>
     </body>
     </html>
   `);
-  optimizedPreview.contentWindow.document.close();
+  iframe.contentWindow.document.close();
 }
 
 /**

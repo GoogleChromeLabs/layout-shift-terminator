@@ -25,7 +25,7 @@
       
       <label for="markup">Layout-shifting markup:</label>
       <textarea id="markup" data-autofocus placeholder="Paste layout shifting HTML here.">
-          <img src="https://amp-wp.org/wp-content/uploads/2021/02/kidshappy-600x400.jpg" style="display:block;width:100%" loading="lazy">
+          <img src="https://amp-wp.org/wp-content/uploads/2021/02/kidshappy-600x400.jpg" style="display:block;width:100%;max-height:400px" loading="lazy">
 <!--         <div id="example-lazy-iframe" class="presized-embed">
   <iframe id="simulated-embed" width="100%" style="outline:solid 1px gray; border:0; display:block" height="1" loading="lazy" src="https://example.com/"></iframe>
   <script type="module">
@@ -71,7 +71,7 @@
         <textarea id="optimized-markup" readonly></textarea>
         
         <p>
-          Preview of markup:
+          Preview the optimized markup: <button id="reload-preview" type="button">Reload</button>
           <iframe id="optimized-preview" src="about:blank"></iframe>
         </p>
       </section>
