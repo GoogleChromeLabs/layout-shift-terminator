@@ -8,7 +8,7 @@
     <title>Layout Shift Terminator</title>
 
     <link rel="stylesheet" href="/style.css" />
-    <script src="/script.js" type="module"></script>
+    <script src="/app.js" type="module"></script>
   </head>
   <body>
     <h1>
@@ -27,13 +27,14 @@
       <textarea id="markup" data-autofocus placeholder="Paste layout shifting HTML here.">
 <!--           <img src="https://amp-wp.org/wp-content/uploads/2021/02/kidshappy-600x400.jpg" style="display:block;width:100%;max-height:400px" loading="lazy"> -->
         <div id="example-lazy-iframe" class="presized-embed">
-  <iframe id="simulated-embed" width="100%" style="outline:solid 1px gray; border:0; display:block" height="1" loading="lazy" src="https://example.com/"></iframe>
+  <iframe id="simulated-embed" width="100%" style="outline:solid 1px gray; border:0; display:block" height="0" loading="lazy" src="https://example.com/"></iframe>
   <script type="module">
     const iframe = document.getElementById('simulated-embed');
-    const setSize = () => { iframe.height = iframe.offsetWidth >= 700 ? 400 : 231 }; 
-    setTimeout( () => { iframe.height = 100;}, 250 );
-    setTimeout( () => { iframe.height = 200;}, 500 );
-    setTimeout(setSize, 750);
+    //const setSize = () => { iframe.height = iframe.offsetWidth >= 700 ? 400 : 231 }; 
+    const setSize = () => { iframe.style.height = ( iframe.offsetWidth >= 700 ? 400 : 231 ).toString() + 'px' }; 
+    //setTimeout( () => { iframe.height = 100;}, 250 );
+    //setTimeout( () => { iframe.height = 200;}, 500 );
+    setTimeout(setSize, 250);
     window.addEventListener('resize', setSize);
   </script>
 </div>
@@ -65,7 +66,7 @@
         <p>
           Viewport sizes:
         </p>
-        <ol id="markup-viewport-sizes"></ol>
+        <ol id="markup-viewport-sizes" hidden></ol>
         
         <label for="optimized-markup">Markup optimized to terminate layout shifts:</label>
         <textarea id="optimized-markup" readonly></textarea>
