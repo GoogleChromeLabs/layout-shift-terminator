@@ -69,35 +69,31 @@ async function start() {
     li.textContent = JSON.stringify(result);
     markupViewportSizesOl.appendChild(li);
   }
-  
-  const optimizedMarkupTextarea = document.getElementById('optimized-markup');
-  const id = `layout-shift-termination-${Math.random()}`;
-  
-  let styles = "<style class='layout-shift-termination'>";
-  for ( const result of results ) {
-    styles += `\n@media only screen and ( min-width: ${result.viewportSize.width}px ) { #${id} { min-height:${result.height}px; } }`;
-  }
-  styles += "\n</style>";
-  
-  let optimizedMarkup = `<div id="${id}">${styles}`;
-  
-  const ( root ) => {
-            const cleanUp = () => {
-              [].map.call( root.querySelectorAll('.layout-shift-termination'), ( el ) => el.remove() );
-            }
-            setTimeout(cleanUp, 4000)
-        }
 
-  const optimizedMarkup = `
-    <div id="${id}">
-      ${styles}
-      <script class="layout-shift-termination">
-        ()( document.getElementById( ${JSON.stringify(id)} ) );
-      </script>
-    </div>
-  `;
-  
-  optimizedMarkupTextarea.value = optimizedMarkup;
+  const optimizedMarkupTextarea = document.getElementById("optimized-markup");
+  const id = `layout-shift-termination-${Math.random()}`;
+
+  let styleTag = "<style class='layout-shift-termination'>";
+  for (const result of results) {
+    styleTag += `\n@media only screen and ( min-width: ${result.viewportSize.width}px ) { #${id} { min-height:${result.height}px; } }`;
+  }
+  styleTag += "\n</style>";
+
+  const terminateLayoutShift = function(root) {
+    setTimeout(function() {
+      [].map.call(root.querySelectorAll(".layout-shift-termination"), el =>
+        el.remove()
+      );
+    }, 4000);
+  };
+
+  let scriptTag = `<script class='layout-shift-termination' async>`;
+  scriptTag += `(${terminateLayoutShift.toString()})(document.getElementById(${JSON.stringify(
+    id
+  )})`;
+  scriptTag += `</script>`;
+
+  optimizedMarkupTextarea.value = `<div id="${id}">\n${styleTag}\n${scriptTag}\n${markup}\n</div>`;
 }
 
 /**

@@ -50,3 +50,8 @@ iframe {
   pointer-events:none;
 }
 
+#optimized-preview {
+  border: solid 1px gray;
+  width: 100%;
+  height: 100vh;
+}
