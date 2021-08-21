@@ -69,9 +69,35 @@ async function start() {
     li.textContent = JSON.stringify(result);
     markupViewportSizesOl.appendChild(li);
   }
+  
+  const optimizedMarkupTextarea = document.getElementById('optimized-markup');
+  const id = `layout-shift-termination-${Math.random()}`;
+  
+  let styles = "<style class='layout-shift-termination'>";
+  for ( const result of results ) {
+    styles += `\n@media only screen and ( min-width: ${result.viewportSize.width}px ) { #${id} { min-height:${result.height}px; } }`;
+  }
+  styles += "\n</style>";
+  
+  let optimizedMarkup = `<div id="${id}">${styles}`;
+  
+  const ( root ) => {
+            const cleanUp = () => {
+              [].map.call( root.querySelectorAll('.layout-shift-termination'), ( el ) => el.remove() );
+            }
+            setTimeout(cleanUp, 4000)
+        }
 
-  // @todo Now take the results and construct the markup that should be embedded.
-  console.info(results);
+  const optimizedMarkup = `
+    <div id="${id}">
+      ${styles}
+      <script class="layout-shift-termination">
+        ()( document.getElementById( ${JSON.stringify(id)} ) );
+      </script>
+    </div>
+  `;
+  
+  optimizedMarkupTextarea.value = optimizedMarkup;
 }
 
 /**
@@ -102,7 +128,7 @@ function watchForEmbedLoaded(container) {
     const script = container.querySelector(
       'script:not([type]), script[type="module"], script[type~="javascript"], *[onload]'
     );
-    if (!script&&0) {
+    if (!script) {
       const dimensionLessVideo = container.querySelector(
         "video:not([width][height])"
       );
