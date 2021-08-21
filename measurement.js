@@ -43,9 +43,9 @@ export function watchForEmbedLoaded(container) {
       return;
     }
 
-    // Start listening for DOM changes, and stop once a 2.5-second pause is encountered.
     // Warning: the embed may be wise enough to implement lazy-loading.
     
+    // TODO: Consider using ResizeObserver.
 //     const resizeObserver = new ResizeObserver(
 //       ( entries ) => {
         
@@ -71,6 +71,7 @@ export function watchForEmbedLoaded(container) {
 //     resizeObserver.observe( container );
 //     return;
     
+    // Start listening for DOM changes, and stop once a 2.5-second pause is encountered.
     let resolveTimeoutId = 0;
     const mutationObserver = new MutationObserver(() => {
       clearTimeout(resolveTimeoutId);
@@ -80,14 +81,15 @@ export function watchForEmbedLoaded(container) {
         resolveWithResolution();
       };
       
+      // As a shortcut, complete as soon as am iframe with a non-zero height is encountered.
+      // TODO: Sometimes the mutation seems to trigger before layout happens.
       const iframe = container.querySelector('iframe');
       if ( iframe ) {
-        // setTimeout( () => {
-        console.info('offsetHeight', iframe.offsetHeight)
-          if ( iframe.offsetHeight > 10 ) {
-            // complete();
-          }
-        // }, 0 );
+          //setTimeout(() => {
+            if ( iframe.offsetHeight > 0 ) {
+               complete();
+            }
+          //}, 100)
       }
       
       resolveTimeoutId = setTimeout(complete, 2500);
