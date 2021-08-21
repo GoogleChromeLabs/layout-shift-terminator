@@ -50,6 +50,10 @@ iframe {
   pointer-events:none;
 }
 
+#optimized-markup {
+  min-height: 200px;
+}
+
 #optimized-preview {
   border: solid 1px gray;
   width: 100%;
