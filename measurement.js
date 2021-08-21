@@ -45,23 +45,37 @@ export function watchForEmbedLoaded(container) {
 
     // Start listening for DOM changes, and stop once a 2.5-second pause is encountered.
     // Warning: the embed may be wise enough to implement lazy-loading.
+    
+    const resizeObserver = new ResizeObserver(
+      ( entries ) => {
+        if ( entrie ) {
+          
+        }
+      }
+    );
+    resizeObserver.observe( container )
+    
     let resolveTimeoutId = 0;
-    const observer = new MutationObserver(() => {
+    const mutationObserver = new MutationObserver(() => {
       clearTimeout(resolveTimeoutId);
       
       const complete = () => {
-        observer.disconnect();
+        mutationObserver.disconnect();
         resolveWithResolution();
       };
       
       const iframe = container.querySelector('iframe');
-      if ( iframe && iframe.offsetHeight > 10 ) {
-        setTimeout( complete )
-      } else {
-        resolveTimeoutId = setTimeout(complete, 2500);
+      if ( iframe ) {
+        // setTimeout( () => {
+          if ( iframe.offsetHeight > 10 ) {
+            complete();
+          }
+        // }, 0 );
       }
+      
+      resolveTimeoutId = setTimeout(complete, 2500);
     });
-    observer.observe(container, {
+    mutationObserver.observe(container, {
       subtree: true,
       childList: true,
       attributes: true
