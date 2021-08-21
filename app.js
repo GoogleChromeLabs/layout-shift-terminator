@@ -164,7 +164,6 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
       (async () => {
         const data = await watchForEmbedLoaded(document.querySelector('div'));
         parent.postMessage(data);
-        console.info(window.location.href)
       })();
       </script>
     </body>

@@ -76,6 +76,7 @@ export function watchForEmbedLoaded(container) {
       const iframe = container.querySelector('iframe');
       if ( iframe ) {
         // setTimeout( () => {
+        console.info('offsetHeight', iframe.offsetHeight)
           if ( iframe.offsetHeight > 10 ) {
             complete();
           }
