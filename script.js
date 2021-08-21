@@ -81,6 +81,7 @@ async function start() {
 
   let styleTag = "<style class='layout-shift-termination'>";
   for (const result of results) {
+    // @todo Also container queries.
     styleTag += `\n@media only screen and ( max-width: ${result.viewportSize.width}px ) { #${id} { min-height:${result.height}px; } }`;
   }
   styleTag += "\n</style>";
