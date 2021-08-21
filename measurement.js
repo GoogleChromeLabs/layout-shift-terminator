@@ -48,12 +48,21 @@ export function watchForEmbedLoaded(container) {
     
     const resizeObserver = new ResizeObserver(
       ( entries ) => {
-        if ( entrie ) {
+        for ( const entry of entries ) {
+          console.info(  entry.contentBoxSize, entry.contentRect.height )
+          if ( entry.contentRect.height > 0 ) {
+            //console.info(  entry.contentBoxSize, entry.contentRect )
+            
+            // resolveWithResolution();
+            break;
+          }
+          
           
         }
       }
     );
-    resizeObserver.observe( container )
+    resizeObserver.observe( container );
+    return;
     
     let resolveTimeoutId = 0;
     const mutationObserver = new MutationObserver(() => {
