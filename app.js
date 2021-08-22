@@ -61,6 +61,11 @@ async function start() {
 
     i++;
   }
+  
+  // Make sure the results are sorted by viewport width in descending order.
+  results.sort((a, b) => {
+    return b.viewportSize.width - a.viewportSize.width;
+  });
 
   calculationContainer.hidden = true;
   terminationSection.hidden = false;
@@ -77,12 +82,13 @@ async function start() {
   }
 
   const optimizedMarkupTextarea = document.getElementById("optimized-markup");
-  const id = `layout-shift-termination-${Math.random()}`.replace(".", "-");
+  const containerId = `layout-shift-termination-${Math.random()}`.replace(".", "-");
 
   let styleTag = "<style class='layout-shift-termination'>";
-  for (const result of results) {
+  styleTag += `\n#${containerId} { min-height:${results[0].height}px; }`;
+  for (const result of results.slice(1)) {
     // @todo Also container queries.
-    styleTag += `\n@media only screen and ( max-width: ${result.viewportSize.width}px ) { #${id} { min-height:${result.height}px; } }`;
+    styleTag += `\n@media only screen and ( max-width: ${result.viewportSize.width}px ) { #${containerId} { min-height:${result.height}px; } }`;
   }
   styleTag += "\n</style>";
 
@@ -96,11 +102,11 @@ async function start() {
 
   let scriptTag = `<script class='layout-shift-termination' async>`;
   scriptTag += `(${terminateLayoutShift.toString()})(document.getElementById(${JSON.stringify(
-    id
+    containerId
   )}))`;
   scriptTag += `</script>`;
 
-  const optimizedMarkup = `<div id="${id}">\n${styleTag}\n${scriptTag}\n${markup}\n</div>`;
+  const optimizedMarkup = `<div id="${containerId}">\n${styleTag}\n${scriptTag}\n${markup}\n</div>`;
   optimizedMarkupTextarea.value = optimizedMarkup;
 
   const optimizedPreview = document.getElementById("optimized-preview");
