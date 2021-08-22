@@ -60,31 +60,28 @@ export function watchForEmbedLoaded(container) {
 
     // Warning: the embed may be wise enough to implement lazy-loading.
 
-    // TODO: Consider using ResizeObserver.
-//     const resizeObserver = new ResizeObserver(
-//       ( entries ) => {
-
-//         for ( const entry of entries ) {
-//           console.info(entry)
-//           const iframe = container.querySelector('iframe');
-//           if (iframe) {
-//             console.info('offsetHeight', iframe.offsetHeight)
-//           }
-
-//           console.info(  entry.contentBoxSize, entry.contentRect.height )
-//           if ( entry.contentRect.height > 0 ) {
-//             //console.info(  entry.contentBoxSize, entry.contentRect )
-
-//             // resolveWithResolution();
-//             break;
-//           }
-
-
-//         }
-//       }
-//     );
-//     resizeObserver.observe( container );
-//     return;
+    // TODO: Consider using ResizeObserver. The following is commented out because it triggers before a resize happens.
+    // const resizeObserver = new ResizeObserver(
+    //   ( entries ) => {
+    //
+    //     for ( const entry of entries ) {
+    //       console.info(entry)
+    //       const iframe = container.querySelector('iframe');
+    //       if (iframe) {
+    //         console.info('offsetHeight', iframe.offsetHeight)
+    //       }
+    //
+    //       console.info(  entry.contentBoxSize, entry.contentRect.height )
+    //       if ( entry.contentRect.height > 0 ) {
+    //         //console.info(  entry.contentBoxSize, entry.contentRect )
+    //
+    //         // resolveWithResolution();
+    //         break;
+    //       }
+    //     }
+    //   }
+    // );
+    // resizeObserver.observe( container );
 
     // Start listening for DOM changes, and stop once a 2.5-second pause is encountered.
     let resolveTimeoutId = 0;
@@ -99,12 +96,8 @@ export function watchForEmbedLoaded(container) {
       // As a shortcut, complete as soon as am iframe with a non-zero height is encountered.
       // TODO: Sometimes the mutation seems to trigger before layout happens.
       const iframe = container.querySelector('iframe');
-      if ( iframe ) {
-          //setTimeout(() => {
-            if ( iframe.offsetHeight > 0 ) {
-               complete();
-            }
-          //}, 100)
+      if ( iframe && iframe.offsetHeight > 0 ) {
+        complete();
       }
 
       resolveTimeoutId = setTimeout(complete, 2500);
