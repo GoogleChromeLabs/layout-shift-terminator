@@ -45,26 +45,7 @@ limitations under the License.
     <form action="javascript:">
 
       <label for="markup">Layout-shifting markup:</label>
-      <textarea id="markup" data-autofocus placeholder="Paste layout shifting HTML here.">
-<!--           <blockquote class="twitter-tweet"><p lang="en" dir="ltr">⛺️🔥 Fun fact: cAMPfire stories are the best stories.<br> <a href="https://twitter.com/CrystalOnScript?ref_src=twsrc%5Etfw">@CrystalOnScript</a>, <a href="https://twitter.com/nainar92?ref_src=twsrc%5Etfw">@nainar92</a>, and Caroline Liu gather around to unbox the Bento developer preview, which allows you to use AMP ⚡️ components everywhere!<br> <br>📺 Tune in → <a href="https://t.co/RViEFP4AR9">https://t.co/RViEFP4AR9</a> <a href="https://t.co/Ni8B5VNZVz">pic.twitter.com/Ni8B5VNZVz</a></p>&mdash; AMP Project (@AMPhtml) <a href="https://twitter.com/AMPhtml/status/1397995435386679302?ref_src=twsrc%5Etfw">May 27, 2021</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
-
-<!--           <img src="https://amp-wp.org/wp-content/uploads/2021/02/kidshappy-600x400.jpg" style="display:block;width:100%;max-height:400px" loading="lazy"> -->
-
-        <div id="example-lazy-iframe" class="presized-embed">
-  <iframe id="simulated-embed" width="100%" style="outline:solid 1px gray; border:0; display:block" height="0" loading="lazy" src="https://example.com/"></iframe>
-  <script type="module">
-    const iframe = document.getElementById('simulated-embed');
-    const setSize = () => { iframe.height = iframe.offsetWidth >= 700 ? 400 : 231 };
-    //const setSize = () => { iframe.style.height = ( iframe.offsetWidth >= 700 ? 400 : 231 ).toString() + 'px' };
-    //setTimeout( () => { iframe.height = 100;}, 250 );
-    //setTimeout( () => { iframe.height = 200;}, 500 );
-    setTimeout(setSize, 250);
-    window.addEventListener('resize', setSize);
-  </script>
-</div>
-
-      </textarea>
+      <textarea id="markup" autofocus placeholder="Paste layout shifting HTML here."></textarea>
       <button type="submit" disabled>
         Eliminate Layout Shift
       </button>
