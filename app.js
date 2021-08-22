@@ -85,10 +85,12 @@ async function start() {
   const containerId = `layout-shift-termination-${Math.random()}`.replace(".", "-");
 
   let styleTag = "<style class='layout-shift-termination'>";
-  styleTag += `\n#${containerId} { min-height:${results[0].height}px; contain: layout inline-size; }`;
-  // for (const result of results.slice(1)) {
-  //   styleTag += `\n@media only screen and ( max-width: ${result.viewportSize.width}px ) { #${containerId} { min-height:${result.height}px; } }`;
-  // }
+  styleTag += `\n#${containerId} { contain: style layout inline-size; }`;
+  styleTag += `\n#${containerId} > .layout-shift-terminated { min-height:${results[0].height}px; }`;
+  for (const result of results.slice(1)) {
+    // @todo The content width and responsive breakpoints 
+    styleTag += `\n@media only screen and ( max-width: ${result.viewportSize.width}px ) { #${containerId} { min-height:${result.height}px; } }`;
+  }
   for (const result of results.slice(1)) {
     styleTag += `\n@container ( max-width: ${result.viewportSize.width}px ) { #${containerId} > .layout-shift-terminated { min-height:${result.height}px; } }`;
   }
