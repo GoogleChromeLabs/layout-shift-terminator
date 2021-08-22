@@ -31,7 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     console.info('cod');
   } );
 
-  start(); // Testing.
+  const query = new URLSearchParams(window.location.search.substr(1));
+  if (query.has('autorun')) {
+    start();
+  }
 });
 
 async function start() {
