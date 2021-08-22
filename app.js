@@ -88,7 +88,7 @@ async function start() {
   styleTag += `\n#${containerId} { contain: style layout inline-size; }`;
   styleTag += `\n#${containerId} > .layout-shift-terminated { min-height:${results[0].height}px; }`;
   for (const result of results.slice(1)) {
-    // @todo The content width and responsive breakpoints 
+    // @todo The responsive breakpoint content widths need to be accounted for.
     styleTag += `\n@media only screen and ( max-width: ${result.viewportSize.width}px ) { #${containerId} { min-height:${result.height}px; } }`;
   }
   for (const result of results.slice(1)) {
