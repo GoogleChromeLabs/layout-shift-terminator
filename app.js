@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderOptimizedPreview(document.getElementById("optimized-markup").value);
     console.info('cod');
   } );
-  
+
   start(); // Testing.
 });
 
@@ -77,7 +77,7 @@ async function start() {
 
     i++;
   }
-  
+
   // Make sure the results are sorted by viewport width in descending order.
   results.sort((a, b) => {
     return b.viewportSize.width - a.viewportSize.width;
@@ -131,7 +131,7 @@ async function start() {
 
   const optimizedPreview = document.getElementById("optimized-preview");
   optimizedPreview.height = Math.max(...results.map(result => result.height)) + 100;
-  
+
   renderOptimizedPreview(optimizedMarkup);
 }
 
