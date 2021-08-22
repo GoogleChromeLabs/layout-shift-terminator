@@ -89,7 +89,7 @@ async function start() {
   styleTag += `\n#${containerId} > .layout-shift-terminated { min-height:${results[0].height}px; }`;
   for (const result of results.slice(1)) {
     // @todo The responsive breakpoint content widths need to be accounted for.
-    styleTag += `\n@media only screen and ( max-width: ${result.viewportSize.width}px ) { #${containerId} { min-height:${result.height}px; } }`;
+    styleTag += `\n@media only screen and ( max-width: ${result.viewportSize.width}px ) { #${containerId} > .layout-shift-terminated { min-height:${result.height}px; } }`;
   }
   for (const result of results.slice(1)) {
     styleTag += `\n@container ( max-width: ${result.viewportSize.width}px ) { #${containerId} > .layout-shift-terminated { min-height:${result.height}px; } }`;
