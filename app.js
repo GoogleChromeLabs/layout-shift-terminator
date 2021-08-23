@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById('reload-preview').addEventListener( 'click', () => {
     renderOptimizedPreview(document.getElementById("optimized-markup").value);
-    console.info('cod');
   } );
 
   const query = new URLSearchParams(window.location.search.substr(1));
