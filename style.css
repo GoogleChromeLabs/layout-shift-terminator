@@ -54,5 +54,6 @@ iframe {
 
 #optimized-preview {
   border: solid 1px gray;
+  resize: horizontal;
   width: 100%;
 }
