@@ -93,13 +93,6 @@ export function watchForEmbedLoaded(container) {
         resolveWithResolution();
       };
 
-      // As a shortcut, complete as soon as am iframe with a non-zero height is encountered.
-      // TODO: Sometimes the mutation seems to trigger before layout happens.
-      const iframe = container.querySelector('iframe');
-      if ( iframe && iframe.offsetHeight > 0 ) {
-        complete();
-      }
-
       resolveTimeoutId = setTimeout(complete, 2500);
     });
     mutationObserver.observe(container, {
