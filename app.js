@@ -137,9 +137,12 @@ async function start() {
   renderOptimizedPreview(optimizedMarkup);
 }
 
-
 function renderOptimizedPreview(previewMarkup) {
-  const iframe = document.getElementById("optimized-preview");
+  // Replace the old iframe because document.write() does not reset global variables.
+  const oldIframe = document.getElementById("optimized-preview");
+  const iframe = oldIframe.cloneNode();
+  oldIframe.parentNode.replaceChild(iframe, oldIframe);
+
   iframe.contentWindow.document.open();
   iframe.contentWindow.document.write(`
     <!DOCTYPE html>
