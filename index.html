@@ -17,17 +17,15 @@ limitations under the License.
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Layout Shift Terminator</title>
 
-    <link rel="stylesheet" href="./style.css">
-    <script src="./app.js" type="module"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./app.mjs" type="module"></script>
   </head>
   <body>
-    <h1>
-      Layout Shift Terminator
-    </h1>
+    <h1>Layout Shift Terminator</h1>
 
     <noscript>
       <p>
@@ -36,29 +34,34 @@ limitations under the License.
     </noscript>
 
     <p>
-      The following tool allows you to enter arbitrary markup which causes layout shifts (e.g. social embed) in order
-      load the markup at various viewport sizes to be able to measure the dimensions at each. With this information it
-      then provides optimized markup with responsive media queries to reduce the amount of layout shifting when the
-      markup is rendered on a loading page.
+      The following tool allows you to enter arbitrary markup which causes
+      layout shifts (e.g. social embed) in order load the markup at various
+      viewport sizes to be able to measure the dimensions at each. With this
+      information it then provides optimized markup with responsive media
+      queries to reduce the amount of layout shifting when the markup is
+      rendered on a loading page.
     </p>
 
     <form action="javascript:">
-
       <label for="markup">Layout-shifting markup:</label>
-      <textarea id="markup" autofocus required placeholder="Paste layout-shifting HTML here."></textarea>
-      <button type="submit" disabled>
-        Eliminate Layout Shift
-      </button>
+      <textarea
+        id="markup"
+        autofocus
+        required
+        placeholder="Paste layout-shifting HTML here."
+      ></textarea>
+      <button type="submit" disabled>Eliminate Layout Shift</button>
 
       <section id="calculation" hidden>
-        <h2>
-          Terminating Layout Shifts…
-        </h2>
+        <h2>Terminating Layout Shifts…</h2>
 
         <progress></progress>
 
         <p>
-          Checking viewport: <span id="current-viewport-width"></span>&times;<span id="current-viewport-height"></span>
+          Checking viewport:
+          <span id="current-viewport-width"></span>&times;<span
+            id="current-viewport-height"
+          ></span>
         </p>
 
         <div id="iframe-wrapper">
@@ -67,26 +70,26 @@ limitations under the License.
       </section>
 
       <section id="termination" hidden>
-        <h2>
-          Terminated
-        </h2>
-        <p hidden>
-          Viewport sizes:
-        </p>
+        <h2>Terminated</h2>
+        <p hidden>Viewport sizes:</p>
         <ol id="markup-viewport-sizes" hidden></ol>
 
-        <label for="optimized-markup">Markup optimized to terminate layout shifts:</label>
+        <label for="optimized-markup"
+          >Markup optimized to terminate layout shifts:</label
+        >
         <textarea id="optimized-markup" readonly></textarea>
 
         <p>
-          Preview the optimized markup, try resizing the window and hitting this below reload button perhaps with network throttling enabled and check that the lorem ipsum text doesn't shift around.
+          Preview the optimized markup, try resizing the window and hitting this
+          below reload button perhaps with network throttling enabled and check
+          that the lorem ipsum text doesn't shift around.
         </p>
         <button id="reload-preview" type="button">Reload</button>
         <iframe id="optimized-preview" src="about:blank"></iframe>
       </section>
     </form>
 
-    <hr>
+    <hr />
     <address><a href="https://weston.ruter.net/">@westonruter</a></address>
   </body>
 </html>

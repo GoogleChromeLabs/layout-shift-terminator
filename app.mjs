@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { default as viewportSizes } from "./viewports.js";
+import { default as viewportSizes } from "./viewports.mjs";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
@@ -204,7 +204,7 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
     <body>
       <div>${markup}</div>
       <script type="module">
-      import { watchForEmbedLoaded } from "./measurement.js";
+      import { watchForEmbedLoaded } from "./measurement.mjs";
       (async () => {
         const data = await watchForEmbedLoaded(document.querySelector('div'));
         parent.postMessage(data);
