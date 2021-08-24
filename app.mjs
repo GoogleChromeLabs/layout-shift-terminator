@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function calculate({ markup }) {
   const calculationSection = document.getElementById("calculation");
   calculationSection.hidden = false;
+  calculationSection.scrollIntoView();
 
   const currentViewportWidthSpan = document.getElementById(
     "current-viewport-width"
