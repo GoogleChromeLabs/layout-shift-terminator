@@ -151,7 +151,7 @@ async function terminate({ markup, results }) {
 
   const optimizedMarkup = `<div id="${containerId}">\n${styleTag}\n${scriptTag}\n<div class="layout-shift-terminated">${markup}</div>\n</div>`;
   optimizedMarkupTextarea.value = optimizedMarkup;
-  optimizedMarkupTextarea.focus();
+  optimizedMarkupTextarea.select();
 
   const optimizedPreview = document.getElementById("optimized-preview");
   optimizedPreview.height =
