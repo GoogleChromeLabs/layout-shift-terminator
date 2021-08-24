@@ -34,6 +34,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.querySelector("button[type=submit]").disabled = false;
 
+  for (const demoButton of document.querySelectorAll("#demos button")) {
+    demoButton.addEventListener("click", () => {
+      const markup = demoButton.querySelector("template").innerHTML;
+      document.getElementById("markup").value = markup;
+      run();
+    });
+  }
+
   document.getElementById("reload-preview").addEventListener("click", () => {
     renderOptimizedPreview(document.getElementById("optimized-markup").value);
   });
