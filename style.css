@@ -33,6 +33,12 @@ button[type="submit"] {
   font-size: large;
 }
 
+#calculation,
+#termination {
+  margin-top: 2em;
+  overflow: hidden;
+}
+
 progress {
   display: block;
   width: 100%;
@@ -40,7 +46,6 @@ progress {
 }
 
 #calculation {
-  overflow: hidden;
   max-width: 100%;
 }
 
