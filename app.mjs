@@ -204,6 +204,7 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
     </head>
     <body>
       <div>${markup}</div>
+      <hr>
       <script type="module">
       import { watchForEmbedLoaded } from "./measurement.mjs";
       (async () => {
