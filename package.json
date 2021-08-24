@@ -4,6 +4,7 @@
   "description": "This tool allows you to enter arbitrary markup which causes layout shifts (e.g. social embed) in order load the markup at various viewport sizes to be able to measure the dimensions at each. With this information it then provides optimized markup with responsive media queries (and container queries!) to reduce or eliminate the amount of layout shifting when the markup is rendered on a loading page.",
   "main": "app.js",
   "scripts": {
+    "prepare": "husky install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -12,11 +13,16 @@
   },
   "author": "Weston Ruter",
   "license": "Apache-2.0",
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
   "bugs": {
     "url": "https://github.com/googlechromelabs/layout-shift-terminator/issues"
   },
   "homepage": "https://github.com/googlechromelabs/layout-shift-terminator#readme",
   "devDependencies": {
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
     "prettier": "2.3.2"
   }
 }
