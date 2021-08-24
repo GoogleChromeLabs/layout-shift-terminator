@@ -19,9 +19,17 @@ import { default as viewportSizes } from "./viewports.js";
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
 
+  const run = async () => {
+    document.getElementById("calculation").hidden = true;
+    document.getElementById("termination").hidden = true;
+    const markup = document.getElementById("markup").value;
+    const results = await calculate( { markup } );
+    await terminate( { markup, results } );
+  };
+
   form.addEventListener("submit", event => {
     event.preventDefault();
-    start();
+    run();
   });
 
   form.querySelector("button[type=submit]").disabled = false;
@@ -32,16 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const query = new URLSearchParams(window.location.search.substr(1));
   if (query.has('autorun')) {
-    start();
+    run();
   }
 });
 
-async function start() {
-  const calculationContainer = document.getElementById("calculation");
-  const terminationSection = document.getElementById("termination");
-
-  calculationContainer.hidden = false;
-  terminationSection.hidden = true;
+async function calculate( { markup } ) {
+  const calculationSection = document.getElementById("calculation");
+  calculationSection.hidden = false;
 
   const currentViewportWidthSpan = document.getElementById(
     "current-viewport-width"
@@ -50,9 +55,7 @@ async function start() {
     "current-viewport-height"
   );
 
-  const markup = document.getElementById("markup").value;
-
-  const maxWidth = calculationContainer.offsetWidth;
+  const maxWidth = calculationSection.offsetWidth;
 
   const progress = document.querySelector("progress");
   progress.max = viewportSizes.length;
@@ -79,14 +82,20 @@ async function start() {
 
     i++;
   }
+  calculationSection.hidden = true;
+
+  return results;
+}
+
+async function terminate( { markup, results } ) {
+  const terminationSection = document.getElementById("termination");
+  terminationSection.hidden = false;
 
   // Make sure the results are sorted by viewport width in descending order.
   results.sort((a, b) => {
     return b.viewportSize.width - a.viewportSize.width;
   });
 
-  calculationContainer.hidden = true;
-  terminationSection.hidden = false;
   const markupViewportSizesOl = document.getElementById(
     "markup-viewport-sizes"
   );
