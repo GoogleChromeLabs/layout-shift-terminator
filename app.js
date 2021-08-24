@@ -23,28 +23,28 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("calculation").hidden = true;
     document.getElementById("termination").hidden = true;
     const markup = document.getElementById("markup").value;
-    const results = await calculate( { markup } );
-    await terminate( { markup, results } );
+    const results = await calculate({ markup });
+    await terminate({ markup, results });
   };
 
-  form.addEventListener("submit", event => {
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
     run();
   });
 
   form.querySelector("button[type=submit]").disabled = false;
 
-  document.getElementById('reload-preview').addEventListener( 'click', () => {
+  document.getElementById("reload-preview").addEventListener("click", () => {
     renderOptimizedPreview(document.getElementById("optimized-markup").value);
-  } );
+  });
 
   const query = new URLSearchParams(window.location.search.substr(1));
-  if (query.has('autorun')) {
+  if (query.has("autorun")) {
     run();
   }
 });
 
-async function calculate( { markup } ) {
+async function calculate({ markup }) {
   const calculationSection = document.getElementById("calculation");
   calculationSection.hidden = false;
 
@@ -72,12 +72,12 @@ async function calculate( { markup } ) {
     const data = await calculateViewportSize({
       maxWidth,
       markup,
-      ...viewportSize
+      ...viewportSize,
     });
 
     results.push({
       ...data,
-      viewportSize
+      viewportSize,
     });
 
     i++;
@@ -87,7 +87,7 @@ async function calculate( { markup } ) {
   return results;
 }
 
-async function terminate( { markup, results } ) {
+async function terminate({ markup, results }) {
   const terminationSection = document.getElementById("termination");
   terminationSection.hidden = false;
 
@@ -109,7 +109,10 @@ async function terminate( { markup, results } ) {
   }
 
   const optimizedMarkupTextarea = document.getElementById("optimized-markup");
-  const containerId = `layout-shift-termination-${Math.random()}`.replace(".", "-");
+  const containerId = `layout-shift-termination-${Math.random()}`.replace(
+    ".",
+    "-"
+  );
 
   let styleTag = "<style class='layout-shift-termination'>";
   styleTag += `\n#${containerId} { contain: style layout inline-size; }`;
@@ -123,9 +126,9 @@ async function terminate( { markup, results } ) {
   }
   styleTag += "\n</style>";
 
-  const terminateLayoutShift = function(root) {
-    setTimeout(function() {
-      [].map.call(root.querySelectorAll(".layout-shift-termination"), el =>
+  const terminateLayoutShift = function (root) {
+    setTimeout(function () {
+      [].map.call(root.querySelectorAll(".layout-shift-termination"), (el) =>
         el.remove()
       );
     }, 4000);
@@ -141,7 +144,8 @@ async function terminate( { markup, results } ) {
   optimizedMarkupTextarea.value = optimizedMarkup;
 
   const optimizedPreview = document.getElementById("optimized-preview");
-  optimizedPreview.height = Math.max(...results.map(result => result.height)) + 100;
+  optimizedPreview.height =
+    Math.max(...results.map((result) => result.height)) + 100;
 
   renderOptimizedPreview(optimizedMarkup);
 }
@@ -213,7 +217,7 @@ async function calculateViewportSize({ maxWidth, width, height, markup }) {
   return new Promise((resolve, reject) => {
     window.addEventListener(
       "message",
-      event => {
+      (event) => {
         if (event.source === iframe.contentWindow) {
           resolve(event.data);
         }

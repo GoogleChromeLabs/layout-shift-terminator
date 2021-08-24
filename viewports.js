@@ -24,5 +24,5 @@ export default [
   { width: 500, height: 1024 },
   { width: 414, height: 896 },
   { width: 375, height: 667 },
-  { width: 360, height: 640 }
+  { width: 360, height: 640 },
 ];

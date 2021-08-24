@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/googlechromelabs/layout-shift-terminator/issues"
   },
-  "homepage": "https://github.com/googlechromelabs/layout-shift-terminator#readme"
+  "homepage": "https://github.com/googlechromelabs/layout-shift-terminator#readme",
+  "devDependencies": {
+    "prettier": "2.3.2"
+  }
 }

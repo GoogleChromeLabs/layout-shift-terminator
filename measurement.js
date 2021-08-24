@@ -15,7 +15,7 @@
  */
 
 export function watchForEmbedLoaded(container) {
-  const windowLoaded = new Promise(resolve => {
+  const windowLoaded = new Promise((resolve) => {
     window.addEventListener("load", resolve);
   });
 
@@ -26,7 +26,7 @@ export function watchForEmbedLoaded(container) {
       resolve({
         duration: new Date().valueOf() - startTime.valueOf(),
         width: container.offsetWidth,
-        height: container.offsetHeight
+        height: container.offsetHeight,
       });
     };
 
@@ -98,7 +98,7 @@ export function watchForEmbedLoaded(container) {
     mutationObserver.observe(container, {
       subtree: true,
       childList: true,
-      attributes: true
+      attributes: true,
     });
   });
 }
