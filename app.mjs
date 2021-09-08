@@ -36,8 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   for (const demoButton of document.querySelectorAll("#demos button")) {
     demoButton.addEventListener("click", () => {
-      const markup = demoButton.querySelector("template").innerHTML;
-      document.getElementById("markup").value = markup;
+      let markup = demoButton.querySelector("template").innerHTML;
+      const leadingWhitespaceMatches = markup.match(/^\s+/);
+      if (leadingWhitespaceMatches) {
+        markup = markup.replaceAll(leadingWhitespaceMatches[0], "\n");
+      }
+      document.getElementById("markup").value = markup.trim();
       run();
     });
   }
