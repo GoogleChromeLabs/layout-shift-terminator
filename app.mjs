@@ -145,7 +145,7 @@ async function terminate({ markup, results }) {
     }, 4000);
   };
 
-  let scriptTag = `<script class='layout-shift-termination' async>`;
+  let scriptTag = `<script class=layout-shift-termination type=module async>`;
   scriptTag += `(${terminateLayoutShift.toString()})(document.getElementById(${JSON.stringify(
     containerId
   )}))`;
